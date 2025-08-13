@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum LearnType {
+  reading
+  study
+  review
+  exercise
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(70)
+  email     String   @unique @db.VarChar(70)
+  password  String   @db.VarChar(140)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  avarage Avarage?
+  days    Day[]
+  weeks   Week[]
+  months  Month[]
+  subjects Subject[]
+  
+  @@map("users")
+}
+
+model Avarage {
+  months Int
+  weeks  Int
+  days   Int
+  total  Int
+  userId Int    @unique
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("avarages")
+  @@index([userId])
+}
+
+model Subject {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(150)
+  totalTime Int      @map("total_time")
+  avarage   Int
+  createdAt DateTime @default(now()) @map("created_at")
+  userId    Int
+
+  contexts  Context[]
+  reviews   Review[]
+  learns    Learn[]
+  user User @relation(fields: [userId], references: [id])
+
+
+  @@map("subjects")
+  @@index([name])
+}
+
+model Context {
+  id        Int      @id @default(autoincrement())
+  totalTime Int      @map("total_time")
+  name      String   @db.VarChar(150)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  subjects Subject[]
+
+  @@map("contexts")
+  @@index([name])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @db.Timestamptz(6)
+  done      Boolean
+  position  Int      @db.SmallInt
+  createdAt DateTime @default(now()) @map("created_at")
+
+  subjects Subject[]
+
+  @@map("reviews")
+  @@index([date])
+}
+
+model Learn {
+  id        Int       @id @default(autoincrement())
+  content   String    @db.VarChar(150)
+  start     DateTime  @default(now())
+  end       DateTime
+  type      LearnType
+  createdAt DateTime  @default(now()) @map("created_at")
+  subjectId Int?
+
+  subject Subject? @relation(fields: [subjectId], references: [id])
+
+  @@map("learns")
+  @@index([content, type])
+}
+
+model Day {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @db.Timestamptz(6)
+  totalTime Int      @map("total_time")
+  userId    Int?
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("days")
+  @@index([date])
+}
+
+model Week {
+  id               Int      @id @default(autoincrement())
+  sunday           DateTime @db.Date
+  averageAllDays   Int      @map("average_all_days")
+  averageDaysStudied Int    @map("average_days_studied")
+  totalTime        Int      @map("total_time")
+  createdAt        DateTime @default(now()) @map("created_at")
+  userId           Int?
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("weeks")
+  @@index([sunday])
+}
+
+model Month {
+  id               Int      @id @default(autoincrement())
+  firstDay         DateTime @db.Date
+  averageAllDays   Int      @map("average_all_days")
+  averageDaysStudied Int    @map("average_days_studied")
+  totalTime        Int      @map("total_time")
+  createdAt        DateTime @default(now()) @map("created_at")
+  userId           Int?
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("months")
+  @@index([firstDay])
+}
