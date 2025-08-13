@@ -1,0 +1,6 @@
+server: 
+  port: 3000
+db: 
+  url: postgresql://user:pwd@postgres:5432/finances?schema=public
+log:
+  showQuery: true
