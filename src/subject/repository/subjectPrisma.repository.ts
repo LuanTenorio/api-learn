@@ -3,6 +3,7 @@ import { CreateSubjectDto } from "../dto/createSubject.dto";
 import { ResponseSubjectDto } from "../dto/responseSubject.dto";
 import { SubjectRepository } from "./subject.repository";
 import { PrismaService } from "src/prisma/prisma.service";
+import { RenameSubjectDto } from "../dto/renameSubject.dto";
 
 export class SubjectPrismaRepository implements SubjectRepository {
 
@@ -28,6 +29,15 @@ export class SubjectPrismaRepository implements SubjectRepository {
         })
         
         return !!subject;
+    }
+
+    async renameSubject({ id, name}: RenameSubjectDto): Promise<ResponseSubjectDto> {
+        const subject = await this.prismaService.subject.update({
+            where: { id },
+            data: { name }
+        })
+        
+        return subject
     }
 
 }
