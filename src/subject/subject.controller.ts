@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post, Req } from "@nestjs/common";
+import { Body, Controller, Delete, Param, Patch, Post, Req } from "@nestjs/common";
 import { CreateSubjectDto } from "./dto/createSubject.dto";
 import { CreateSubjectUsecase } from "./usecase/createSubject.usecase";
 import { ResponseSubjectDto } from "./dto/responseSubject.dto";
@@ -7,13 +7,15 @@ import { ApiBadRequestResponse, ApiBody, ApiConflictResponse, ApiNotFoundRespons
 import { UserId } from "src/auth/param/userId.param";
 import { RenameSubjectDto } from "./dto/renameSubject.dto";
 import { RenameSubjectUsecase } from "./usecase/renameSubject.usecase";
+import { DeleteSubjectUsecase } from "./usecase/deleteSubject.usecase";
 
 @Controller("subjects")
 export class SubjectController {
 
     constructor(
         private readonly createSubjectUsecase: CreateSubjectUsecase,
-        private readonly renameSubjectUsecase: RenameSubjectUsecase
+        private readonly renameSubjectUsecase: RenameSubjectUsecase,
+        private readonly deleteSubjectUsecase: DeleteSubjectUsecase
     ) {}
 
     @ApiBody({ required: true, type: CreateSubjectDto })
@@ -34,5 +36,11 @@ export class SubjectController {
     async renameSubject(@Param("id") id: number, @Body() renameSubjectDto: RenameSubjectDto) {
         renameSubjectDto.id = id;
         return this.renameSubjectUsecase.execute(renameSubjectDto);
+    }
+
+    @ApiNotFoundResponse({ type: ExceptionDto })
+    @Delete(":id")
+    async deleteSubject(@Param("id") id: number) {
+        return this.deleteSubjectUsecase.execute(id);
     }
 }

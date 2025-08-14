@@ -6,4 +6,5 @@ export interface SubjectRepository {
     createSubject(data: CreateSubjectDto): Promise<ResponseSubjectDto>
     checkSubjectExistsByNameAndUserId(name: string, userId: number): Promise<boolean>
     renameSubject(data: RenameSubjectDto): Promise<ResponseSubjectDto>
+    deleteSubject(id: number): Promise<void>
 }

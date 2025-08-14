@@ -40,4 +40,10 @@ export class SubjectPrismaRepository implements SubjectRepository {
         return subject
     }
 
+    async deleteSubject(id: number): Promise<void> {
+        await this.prismaService.subject.delete({
+            where: { id }
+        })
+    }
+
 }

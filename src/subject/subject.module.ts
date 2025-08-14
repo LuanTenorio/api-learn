@@ -4,6 +4,7 @@ import { SubjectPrismaRepository } from "./repository/subjectPrisma.repository";
 import { SubjectController } from "./subject.controller";
 import { CreateSubjectUsecase } from "./usecase/createSubject.usecase";
 import { RenameSubjectUsecase } from "./usecase/renameSubject.usecase";
+import { DeleteSubjectUsecase } from "./usecase/deleteSubject.usecase";
 
 @Module({
     imports: [PrismaModule],
@@ -14,7 +15,8 @@ import { RenameSubjectUsecase } from "./usecase/renameSubject.usecase";
             useClass: SubjectPrismaRepository
         },
         CreateSubjectUsecase,
-        RenameSubjectUsecase
+        RenameSubjectUsecase,
+        DeleteSubjectUsecase
     ],
     exports: []
 })
