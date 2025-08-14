@@ -1,7 +1,6 @@
 import { ConflictException, Inject, Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
 import { CreateUserDto } from "../dto/createUser.dto";
 import type { UserRepository } from "../repository/user.ropository";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { LoginUsecase } from "src/auth/usecase/login.usecase";
 
 @Injectable()
@@ -18,7 +17,7 @@ export class CreateUserUsecase {
 
             return user
         } catch (e) {
-            if (e instanceof PrismaClientKnownRequestError && e.code == "P2002") {
+            if (e?.code == "P2002") {
                 throw new ConflictException("User with this email already exists")
             }
 
