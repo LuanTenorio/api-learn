@@ -2,6 +2,7 @@ import { ConflictException, Inject, Injectable, InternalServerErrorException, Lo
 import { CreateUserDto } from "../dto/createUser.dto";
 import type { UserRepository } from "../repository/user.ropository";
 import { LoginUsecase } from "src/auth/usecase/login.usecase";
+import * as bcrypt from "bcrypt"
 
 @Injectable()
 export class CreateUserUsecase {
@@ -13,6 +14,8 @@ export class CreateUserUsecase {
 
     async execute(userDto: CreateUserDto) {
         try {
+
+            userDto.password = await bcrypt.hash(userDto.password, 10)
             const user = await this.userRepo.createUser(userDto)
 
             return user
