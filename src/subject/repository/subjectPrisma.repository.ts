@@ -80,4 +80,13 @@ export class SubjectPrismaRepository implements SubjectRepository {
         pagination.total = total
     }
 
+    async getUserIdBySubjectId(subjectId: number) {
+        const subject = await this.prismaService.subject.findUnique({
+            where: { id: subjectId },
+            select: { userId: true }
+        })
+
+        return subject?.userId;
+    }
+
 }

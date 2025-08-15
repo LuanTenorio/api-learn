@@ -9,4 +9,5 @@ export interface SubjectRepository {
     renameSubject(userId: number, data: RenameSubjectDto): Promise<ResponseSubjectDto>
     deleteSubject(userId: number, id: number): Promise<void>
     pagination(userId: number, pagination: PaginationDto<ResponseSubjectDto>)
+    getUserIdBySubjectId(subjectId: number): Promise<number | undefined>
 }

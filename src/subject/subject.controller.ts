@@ -44,7 +44,7 @@ export class SubjectController {
     @ApiNotFoundResponse({ type: ExceptionDto })
     @Delete(":id")
     async deleteSubject(@UserId() userId: number, @Param("id") id: number) {
-        return this.deleteSubjectUsecase.execute(id);
+        return this.deleteSubjectUsecase.execute(userId, id);
     }
 
     @ApiOkResponse({ type: PaginationDto })

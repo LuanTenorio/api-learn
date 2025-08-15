@@ -6,6 +6,7 @@ import { CreateSubjectUsecase } from "./usecase/createSubject.usecase";
 import { RenameSubjectUsecase } from "./usecase/renameSubject.usecase";
 import { DeleteSubjectUsecase } from "./usecase/deleteSubject.usecase";
 import { PaginationSubjectUseCase } from "./usecase/paginationSubject.usecase";
+import { ValidateSubjectOwnershipUseCase } from "./usecase/validateSubjectOwnership.usecase";
 
 @Module({
     imports: [PrismaModule],
@@ -18,9 +19,12 @@ import { PaginationSubjectUseCase } from "./usecase/paginationSubject.usecase";
         CreateSubjectUsecase,
         RenameSubjectUsecase,
         DeleteSubjectUsecase,
-        PaginationSubjectUseCase
+        PaginationSubjectUseCase,
+        ValidateSubjectOwnershipUseCase
     ],
-    exports: []
+    exports: [
+        ValidateSubjectOwnershipUseCase
+    ]
 })
 export class SubjectModule {
 

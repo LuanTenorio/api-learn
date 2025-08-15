@@ -5,13 +5,15 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/guard/auth.guard';
 import { SubjectModule } from './subject/subject.module';
+import { LearnModule } from './learn/learn.module';
 
 @Module({
   imports: [
     ConfigModule,
     UserModule,
     AuthModule,
-    SubjectModule
+    SubjectModule,
+    LearnModule
   ],
   providers: [
     {

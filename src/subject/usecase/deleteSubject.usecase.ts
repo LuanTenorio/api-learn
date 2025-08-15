@@ -7,9 +7,9 @@ export class DeleteSubjectUsecase {
     @Inject("SubjectRepository")
     private readonly subjectRepo: SubjectRepository;
 
-    async execute(id: number): Promise<void> {
+    async execute(userId: number, id: number): Promise<void> {
         try {
-            await this.subjectRepo.deleteSubject(id);
+            await this.subjectRepo.deleteSubject(userId, id);
         } catch (e) {
             if (e?.code === "P2025") {
                 throw new NotFoundException('Subject not found');
