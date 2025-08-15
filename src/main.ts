@@ -31,6 +31,7 @@ async function bootstrap() {
 
   setValidation(app);
   setSwagger(app);
+  app.enableCors();
   app.setGlobalPrefix("api");
   Logger.log(`Listening on port ${port}`, 'Bootstrap');
 

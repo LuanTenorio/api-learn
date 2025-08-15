@@ -4,6 +4,7 @@ import { ResponseSubjectDto } from "../dto/responseSubject.dto";
 import { SubjectRepository } from "./subject.repository";
 import { PrismaService } from "src/prisma/prisma.service";
 import { RenameSubjectDto } from "../dto/renameSubject.dto";
+import { PaginationDto } from "src/pagination/dto/pagination.dto";
 
 export class SubjectPrismaRepository implements SubjectRepository {
 
@@ -44,6 +45,39 @@ export class SubjectPrismaRepository implements SubjectRepository {
         await this.prismaService.subject.delete({
             where: { id }
         })
+    }
+
+    async pagination(userId: number, pagination: PaginationDto<ResponseSubjectDto>) {
+        const skip = (pagination.page - 1) * pagination.limit
+
+        const [subjects, total] = await this.prismaService.$transaction([
+            this.prismaService.subject.findMany({
+                where: {
+                    userId,
+                    name: {
+                        contains: pagination.where?.name,
+                        mode: "insensitive"
+                    }
+                },
+                omit: {
+                    userId: true
+                },
+                skip,
+                take: pagination.limit,
+            }),
+            this.prismaService.subject.count({
+                where: {
+                    userId,
+                    name: {
+                        contains: pagination.where?.name,
+                        mode: "insensitive"
+                    }
+                }
+            })
+        ])
+
+        pagination.data = subjects
+        pagination.total = total
     }
 
 }

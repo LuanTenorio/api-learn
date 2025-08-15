@@ -1,3 +1,4 @@
+import { PaginationDto } from "src/pagination/dto/pagination.dto";
 import { CreateSubjectDto } from "../dto/createSubject.dto";
 import { RenameSubjectDto } from "../dto/renameSubject.dto";
 import { ResponseSubjectDto } from "../dto/responseSubject.dto";
@@ -7,4 +8,5 @@ export interface SubjectRepository {
     checkSubjectExistsByNameAndUserId(name: string, userId: number): Promise<boolean>
     renameSubject(data: RenameSubjectDto): Promise<ResponseSubjectDto>
     deleteSubject(id: number): Promise<void>
+    pagination(userId: number, pagination: PaginationDto<ResponseSubjectDto>)
 }

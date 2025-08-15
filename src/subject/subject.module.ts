@@ -5,6 +5,7 @@ import { SubjectController } from "./subject.controller";
 import { CreateSubjectUsecase } from "./usecase/createSubject.usecase";
 import { RenameSubjectUsecase } from "./usecase/renameSubject.usecase";
 import { DeleteSubjectUsecase } from "./usecase/deleteSubject.usecase";
+import { PaginationSubjectUseCase } from "./usecase/paginationSubject.usecase";
 
 @Module({
     imports: [PrismaModule],
@@ -16,7 +17,8 @@ import { DeleteSubjectUsecase } from "./usecase/deleteSubject.usecase";
         },
         CreateSubjectUsecase,
         RenameSubjectUsecase,
-        DeleteSubjectUsecase
+        DeleteSubjectUsecase,
+        PaginationSubjectUseCase
     ],
     exports: []
 })
