@@ -32,18 +32,18 @@ export class SubjectPrismaRepository implements SubjectRepository {
         return !!subject;
     }
 
-    async renameSubject({ id, name}: RenameSubjectDto): Promise<ResponseSubjectDto> {
+    async renameSubject(userId: number, { id, name}: RenameSubjectDto): Promise<ResponseSubjectDto> {
         const subject = await this.prismaService.subject.update({
-            where: { id },
+            where: { id, userId },
             data: { name }
         })
         
         return subject
     }
 
-    async deleteSubject(id: number): Promise<void> {
+    async deleteSubject(userId: number, id: number): Promise<void> {
         await this.prismaService.subject.delete({
-            where: { id }
+            where: { id, userId }
         })
     }
 

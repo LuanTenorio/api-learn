@@ -6,7 +6,7 @@ import { ResponseSubjectDto } from "../dto/responseSubject.dto";
 export interface SubjectRepository {
     createSubject(data: CreateSubjectDto): Promise<ResponseSubjectDto>
     checkSubjectExistsByNameAndUserId(name: string, userId: number): Promise<boolean>
-    renameSubject(data: RenameSubjectDto): Promise<ResponseSubjectDto>
-    deleteSubject(id: number): Promise<void>
+    renameSubject(userId: number, data: RenameSubjectDto): Promise<ResponseSubjectDto>
+    deleteSubject(userId: number, id: number): Promise<void>
     pagination(userId: number, pagination: PaginationDto<ResponseSubjectDto>)
 }

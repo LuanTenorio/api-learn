@@ -9,9 +9,9 @@ export class RenameSubjectUsecase {
     @Inject("SubjectRepository")
     private readonly subjectRepo: SubjectRepository;
 
-    async execute(renameSubject: RenameSubjectDto): Promise<ResponseSubjectDto> {
+    async execute(userId: number, renameSubject: RenameSubjectDto): Promise<ResponseSubjectDto> {
         try{
-            const subject = await this.subjectRepo.renameSubject(renameSubject)
+            const subject = await this.subjectRepo.renameSubject(userId, renameSubject)
             return subject
         }catch(e){
             if(e?.code == "P2025")

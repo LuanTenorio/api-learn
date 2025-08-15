@@ -26,7 +26,7 @@ export class SubjectController {
     @ApiBadRequestResponse({ type: ExceptionDto })
     @ApiConflictResponse({ type: ExceptionDto })
     @Post()
-    async createSubject(@Body() subjectDto: CreateSubjectDto, @UserId() userId: number) {
+    async createSubject(@UserId() userId: number, @Body() subjectDto: CreateSubjectDto) {
         subjectDto.userId = userId
         return this.createSubjectUsecase.execute(subjectDto)
     }
@@ -36,14 +36,14 @@ export class SubjectController {
     @ApiBadRequestResponse({ type: ExceptionDto })
     @ApiNotFoundResponse({ type: ExceptionDto })
     @Patch(":id")
-    async renameSubject(@Param("id") id: number, @Body() renameSubjectDto: RenameSubjectDto) {
+    async renameSubject(@UserId() userId: number, @Param("id") id: number, @Body() renameSubjectDto: RenameSubjectDto) {
         renameSubjectDto.id = id;
-        return this.renameSubjectUsecase.execute(renameSubjectDto);
+        return this.renameSubjectUsecase.execute(userId, renameSubjectDto);
     }
 
     @ApiNotFoundResponse({ type: ExceptionDto })
     @Delete(":id")
-    async deleteSubject(@Param("id") id: number) {
+    async deleteSubject(@UserId() userId: number, @Param("id") id: number) {
         return this.deleteSubjectUsecase.execute(id);
     }
 
