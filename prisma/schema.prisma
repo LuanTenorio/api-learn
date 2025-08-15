@@ -93,6 +93,7 @@ model Learn {
   start     DateTime  @default(now())
   end       DateTime
   type      LearnType
+  pauseTime     Int      @default(0) @map("pause_time")
   createdAt DateTime  @default(now()) @map("created_at")
   subjectId Int?
 
