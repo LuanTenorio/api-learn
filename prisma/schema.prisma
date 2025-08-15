@@ -91,7 +91,7 @@ model Learn {
   id        Int       @id @default(autoincrement())
   content   String    @db.VarChar(150)
   start     DateTime  @default(now())
-  end       DateTime
+  end       DateTime?
   type      LearnType
   pauseTime     Int      @default(0) @map("pause_time")
   createdAt DateTime  @default(now()) @map("created_at")
