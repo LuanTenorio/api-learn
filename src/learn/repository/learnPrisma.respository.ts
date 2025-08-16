@@ -3,6 +3,7 @@ import { addLearnDto } from "../dto/addLearn.dto";
 import { ResponseLearnDto } from "../dto/responseLearn.dto";
 import { LearnRepository } from "./learn.repository";
 import { Inject } from "@nestjs/common";
+import { PaginationDto } from "src/pagination/dto/pagination.dto";
 
 export class LearnPrismaRepository implements LearnRepository {
 
@@ -28,6 +29,36 @@ export class LearnPrismaRepository implements LearnRepository {
         })
 
         return learn !== 0
+    }
+
+    async pagination(pagination: PaginationDto<ResponseLearnDto>) {
+        const skip = (pagination.page - 1) * pagination.limit
+
+        const [learns, total] = await this.prismaService.$transaction([
+            this.prismaService.learn.findMany({
+                where: {
+                    subjectId: pagination.where?.subjectId,
+                    content: {
+                        contains: pagination.where?.content,
+                        mode: "insensitive"
+                    }
+                },
+                skip,
+                take: pagination.limit,
+            }),
+            this.prismaService.learn.count({
+                where: {
+                    subjectId: pagination.where?.subjectId,
+                    content: {
+                        contains: pagination.where?.content,
+                        mode: "insensitive"
+                    }
+                }
+            })
+        ])
+
+        pagination.data = learns
+        pagination.total = total
     }
 
 }

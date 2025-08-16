@@ -4,6 +4,7 @@ import { LearnPrismaRepository } from "./repository/learnPrisma.respository";
 import { SubjectModule } from "src/subject/subject.module";
 import { LearnController } from "./learn.controller";
 import { AddLearnUseCase } from "./usecase/addLearn.usecase";
+import { PaginationLearnUseCase } from "./usecase/paginationSubject.usecase";
 
 @Module({
     imports: [
@@ -18,7 +19,8 @@ import { AddLearnUseCase } from "./usecase/addLearn.usecase";
             provide: "LearnRepository",
             useClass: LearnPrismaRepository
         },
-        AddLearnUseCase
+        AddLearnUseCase,
+        PaginationLearnUseCase
     ],
 })
 export class LearnModule {}
